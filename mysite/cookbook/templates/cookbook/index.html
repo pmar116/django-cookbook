@@ -1,0 +1,15 @@
+{% extends "cookbook/base.html" %}
+
+{% block content %}
+    {% for recipe in recipes %}
+    <article class="media content-section">
+        <div class="media-body">
+            <div class="article-metadata">
+                <h2><a href="#">{{ recipe.recipe_name }}</a></h2>
+                <p>By {{ recipe.author }}</p>
+                <p>{{ recipe.description }}</p>
+            </div>
+        </div>
+  </article>
+  {% endfor %}
+{% endblock content %}
