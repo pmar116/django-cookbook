@@ -1,6 +1,12 @@
 from django.db import models
 import datetime
-from django.utils import timezone
+
+class Author(models.Model):
+    author_name = models.CharField(max_length=100)
+    author_bio = models.TextField(blank=True)
+
+    def __str__(self):
+        return self.author_name
 
 class Recipe(models.Model):
     CUISINE_CHOICES =  [
@@ -25,7 +31,7 @@ class Recipe(models.Model):
     ]
     recipe_name = models.CharField(max_length=255)
     description = models.TextField(blank=True)
-    author = models.CharField(max_length=255, blank=True)
+    author = models.ForeignKey(Author, on_delete=models.PROTECT, null=True, blank=True)
     servings = models.IntegerField()
     prep_time = models.IntegerField()
     cuisine = models.CharField(max_length=255, choices=CUISINE_CHOICES) # enum
@@ -36,6 +42,9 @@ class Recipe(models.Model):
 
     def __str__(self):
         return f'{self.recipe_name} by {self.author}'
+    
+    def was_published_recently(self):
+        return self.pub_date >= datetime.date.today - datetime.timedelta(days=30)
 
 class Technique(models.Model):
     technique_name = models.CharField(max_length=255) # connect to recipe step table
@@ -65,6 +74,7 @@ class Ingredient(models.Model):
         ('CHICKEN', 'Chicken'),
         ('DAIRY', 'Dairy'),
         ('STARCH', 'Starch'),
+        ('SEASONING', 'Seasoning'),
         ('UNKNOWN', 'unknown')
     ]
     ingredient_name = models.CharField(max_length=255)

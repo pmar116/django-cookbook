@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Recipe, Technique, Ingredient, Recipe_Ingredient, Recipe_Step
+from .models import Recipe, Technique, Ingredient, Recipe_Ingredient, Recipe_Step, Author
 
 class Recipe_Ingredients_InLine(admin.StackedInline):
     model = Recipe_Ingredient
@@ -16,5 +16,6 @@ class RecipeAdmin(admin.ModelAdmin):
     inlines = [Recipe_Ingredients_InLine, Recipe_Steps_InLine]
 
 admin.site.register(Recipe, RecipeAdmin)
+admin.site.register(Author)
 admin.site.register(Technique)
 admin.site.register(Ingredient)

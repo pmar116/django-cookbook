@@ -4,7 +4,7 @@ from .models import Recipe, Technique, Ingredient, Recipe_Step
 
 def index(request):
     context = {
-        'recipes': Recipe.objects.all()
+        'recipes': Recipe.objects.order_by('-pub_date')[:5]
     }
     return render(request, 'cookbook/index.html', context)
 

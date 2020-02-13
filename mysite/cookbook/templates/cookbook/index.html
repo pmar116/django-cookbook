@@ -1,11 +1,13 @@
 {% extends "cookbook/base.html" %}
 
 {% block content %}
+    <!-- rotating carosel with images of dishes -->
+    <h1>INDEX</h1>
     {% for recipe in recipes %}
     <article class="media content-section">
         <div class="media-body">
             <div class="article-metadata">
-                <h2><a href="#">{{ recipe.recipe_name }}</a></h2>
+                <h2><a href="{% url 'recipe' recipe.id %}">{{ recipe.recipe_name }}</a></h2>
                 <p>By {{ recipe.author }}</p>
                 <p>{{ recipe.description }}</p>
             </div>
