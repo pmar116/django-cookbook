@@ -1,11 +1,14 @@
 {% extends "cookbook/base.html" %}
 
 {% block content %}
-    {% for technique in techniques %}
+    <h1>All Recipes</h1>
+    {% for recipe in recipe_list %}
     <article class="media content-section">
         <div class="media-body">
             <div class="article-metadata">
-                <h2><a href="{% url 'technique' technique.id %}">{{ technique.technique_name }}</a></h2>
+                <h2><a href="{% url 'recipe' recipe.id %}">{{ recipe.recipe_name }}</a></h2>
+                <p>By {{ recipe.author }}</p>
+                <p>{{ recipe.description }}</p>
             </div>
         </div>
   </article>

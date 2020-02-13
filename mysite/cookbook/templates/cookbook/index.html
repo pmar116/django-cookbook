@@ -2,16 +2,10 @@
 
 {% block content %}
     <!-- rotating carosel with images of dishes -->
-    <h1>INDEX</h1>
-    {% for recipe in recipes %}
-    <article class="media content-section">
-        <div class="media-body">
-            <div class="article-metadata">
-                <h2><a href="{% url 'recipe' recipe.id %}">{{ recipe.recipe_name }}</a></h2>
-                <p>By {{ recipe.author }}</p>
-                <p>{{ recipe.description }}</p>
-            </div>
-        </div>
-  </article>
-  {% endfor %}
+    <h1>Cookbook Index</h1>
+    <p>Recipe Record Files</p>
+    <ul>
+        <li><strong>Recipes:</strong> {{ num_recipes }}</li>
+        <li><strong>Authors:</strong> {{ num_authors }}</li>
+    </ul>
 {% endblock content %}

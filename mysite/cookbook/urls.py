@@ -3,8 +3,10 @@ from . import views
 
 urlpatterns = [
     path('', views.index, name='index'),
-    path('recipes/', views.RecipeList, name='RecipeList'),
-    path('recipes/<int:recipe_id>/', views.recipe, name='recipe'),
-    path('techniques/', views.TechniqueList, name='TechniqueList'),
-    path('technique/<int:technique_id>/', views.technique, name='technique'),
+    path('recipes/', views.RecipeListView.as_view(), name='RecipeList'),
+    path('recipes/<int:pk>', views.RecipeDetailView.as_view(), name='recipe'),
+    path('techniques/', views.TechniqueListView.as_view(), name='TechniqueList'),
+    path('techniques/<int:pk>', views.TechniqueDetailView.as_view(), name='technique'),
+    path('authors/', views.AuthorListView.as_view(), name='AuthorList'),
+    path('authors/<int:pk>', views.AuthorDetailView.as_view(), name='author'),
 ]

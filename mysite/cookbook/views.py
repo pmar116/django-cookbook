@@ -1,35 +1,51 @@
 from django.shortcuts import render, get_object_or_404, get_list_or_404
-from .models import Recipe, Technique, Ingredient, Recipe_Step
+from django.views import generic
+from .models import Recipe, Technique, Ingredient, Recipe_Step, Author
 
 
 def index(request):
     context = {
-        'recipes': Recipe.objects.order_by('-pub_date')[:5]
+        'num_recipes': Recipe.objects.all().count(),
+        'num_authors' : Author.objects.all().count(),
     }
     return render(request, 'cookbook/index.html', context)
 
-def RecipeList(request):
-    context = {
-        'recipes': Recipe.objects.all()
-    }
-    return render(request, 'cookbook/recipelist.html', context)
+class RecipeListView(generic.ListView):
+    model = Recipe
+    paginate_by = 1
+    context_object_name = 'recipe_list'
+    ordering = ['recipe_name']
+    template_name = 'cookbook/recipe_list.html'
 
-def recipe(request, recipe_id):
-    recipe = get_object_or_404(Recipe, pk=recipe_id)
-    steps = get_list_or_404(Recipe_Step.objects.filter(recipe=recipe.id))
+class RecipeDetailView(generic.DetailView):
+    template_name = 'cookbook/recipe.html'
+    
+    def get(self, request, *args, **kwargs):
+        recipe = get_object_or_404(Recipe, pk=kwargs['pk'])
+        steps = get_list_or_404(Recipe_Step.objects.filter(recipe=recipe.id))
+        context = {
+            'recipe' : recipe,
+            'recipe_steps' : steps
+        }
+        return render(request, 'cookbook/recipe.html', context)
 
-    context = {
-        'recipe' : recipe,
-        'recipe_steps' : steps
-    }
-    return render(request, 'cookbook/recipe.html', context)
+class TechniqueListView(generic.ListView):
+    model = Technique
+    paginate_by = 25
+    context_object_name = 'technique_list'
+    ordering = ['technique_name']
+    template_name = 'cookbook/technique_list.html'
 
-def TechniqueList(request):
-    context = {
-        'techniques': Technique.objects.all()
-    }
-    return render(request, 'cookbook/techniquelist.html', context)
+class TechniqueDetailView(generic.DetailView):
+    model = Technique
+    template_name = 'cookbook/technique.html'
 
-def technique(request, technique_id):
-    context = get_object_or_404(Technique, pk=technique_id)
-    return render(request, 'cookbook/technique.html', {'technique' : context})
+class AuthorListView(generic.ListView):
+    model = Author
+    paginate_by = 25
+    context_object_name = 'author_list'
+    template_name = 'cookbook/author_list.html'
+
+class AuthorDetailView(generic.DetailView):
+    model = Author
+    template_name = 'cookbook/author.html'

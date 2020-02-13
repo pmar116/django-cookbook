@@ -1,0 +1,13 @@
+{% extends "cookbook/base.html" %}
+
+{% block content %}
+    {% for technique in technique_list %}
+    <article class="media content-section">
+        <div class="media-body">
+            <div class="article-metadata">
+                <h2><a href="{% url 'technique' technique.id %}">{{ technique.technique_name }}</a></h2>
+            </div>
+        </div>
+  </article>
+  {% endfor %}
+{% endblock content %}
