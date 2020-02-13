@@ -1,5 +1,6 @@
 from django.db import models
 import datetime
+from django.utils import timezone
 
 class Recipe(models.Model):
     CUISINE_CHOICES =  [
@@ -31,7 +32,7 @@ class Recipe(models.Model):
     category = models.CharField(max_length=255, choices=FOOD_CATEGORY, blank=True) #enum
     notes = models.TextField(blank=True)
     video = models.URLField(blank=True)
-    pub_date = models.DateField(datetime.date.today, default=datetime.date.today)
+    pub_date = models.DateField("Date Published", default=datetime.date.today)
 
     def __str__(self):
         return f'{self.recipe_name} by {self.author}'
