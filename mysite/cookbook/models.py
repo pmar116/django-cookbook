@@ -1,12 +1,20 @@
 from django.db import models
+from django.urls import reverse
 import datetime
 
 class Author(models.Model):
     author_name = models.CharField(max_length=100)
     author_bio = models.TextField(blank=True)
+    slug = models.SlugField(null=False, unique=True)
 
     def __str__(self):
         return self.author_name
+    
+    def get_absolute_url(self):
+        kwargs = {
+            'slug' : self.slug
+        }
+        return reverse('author_detail', kwargs=kwargs)
 
 class Recipe(models.Model):
     CUISINE_CHOICES =  [
@@ -39,20 +47,35 @@ class Recipe(models.Model):
     notes = models.TextField(blank=True)
     video = models.URLField(blank=True)
     pub_date = models.DateField("Date Published", default=datetime.date.today)
+    slug = models.SlugField(null=False)
 
     def __str__(self):
         return f'{self.recipe_name} by {self.author}'
     
     def was_published_recently(self):
         return self.pub_date >= datetime.date.today - datetime.timedelta(days=30)
+    
+    def get_absolute_url(self):
+        kwargs = {
+            'pk' : self.id,
+            'slug' : self.slug
+        }
+        return reverse('recipe_detail', kwargs=kwargs)
 
 class Technique(models.Model):
     technique_name = models.CharField(max_length=255) # connect to recipe step table
     technique_tutorial = models.TextField(blank=True)
     video_link = models.CharField(max_length=144)
+    slug = models.SlugField(null=False, unique=True)
 
     def __str__(self):
         return self.technique_name
+
+    def get_absolute_url(self):
+        kwargs = {
+            'slug' : self.slug
+        }
+        return reverse('technique_detail', kwargs=kwargs)
 
 class Recipe_Step(models.Model):
     recipe = models.ForeignKey(Recipe, on_delete=models.CASCADE) #connect to recipe table

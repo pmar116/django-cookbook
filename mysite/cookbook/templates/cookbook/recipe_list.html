@@ -1,12 +1,25 @@
 {% extends "cookbook/base.html" %}
 
+{% block sidebar %}
+    <div class="content-section">
+        <h3>Filters</h3>
+        <p class='text-muted'>Filter Recipes
+        <ul class="list-group">
+            <li class="list-group-item list-group-item-light">Cuisine</li>
+            <li class="list-group-item list-group-item-light">Category</li>
+            <li class="list-group-item list-group-item-light">Allergies</li>
+            <li class="list-group-item list-group-item-light">Prep Time</li>
+        </ul>
+        </p>
+    </div>
+{% endblock %}
+
 {% block content %}
-    <h1>All Recipes</h1>
     {% for recipe in recipe_list %}
     <article class="media content-section">
         <div class="media-body">
             <div class="article-metadata">
-                <h2><a href="{% url 'recipe' recipe.id %}">{{ recipe.recipe_name }}</a></h2>
+                <h2><a href="{{ recipe.get_absolute_url }}">{{ recipe.recipe_name }}</a></h2>
                 <p>By {{ recipe.author }}</p>
                 <p>{{ recipe.description }}</p>
             </div>

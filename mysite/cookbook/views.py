@@ -12,14 +12,14 @@ def index(request):
 
 class RecipeListView(generic.ListView):
     model = Recipe
-    paginate_by = 1
+    paginate_by = 25
     context_object_name = 'recipe_list'
     ordering = ['recipe_name']
     template_name = 'cookbook/recipe_list.html'
 
 class RecipeDetailView(generic.DetailView):
-    template_name = 'cookbook/recipe.html'
-    
+    template_name = 'cookbook/recipe_detail.html'
+
     def get(self, request, *args, **kwargs):
         recipe = get_object_or_404(Recipe, pk=kwargs['pk'])
         steps = get_list_or_404(Recipe_Step.objects.filter(recipe=recipe.id))
@@ -27,7 +27,7 @@ class RecipeDetailView(generic.DetailView):
             'recipe' : recipe,
             'recipe_steps' : steps
         }
-        return render(request, 'cookbook/recipe.html', context)
+        return render(request, 'cookbook/recipe_detail.html', context)
 
 class TechniqueListView(generic.ListView):
     model = Technique
@@ -38,14 +38,15 @@ class TechniqueListView(generic.ListView):
 
 class TechniqueDetailView(generic.DetailView):
     model = Technique
-    template_name = 'cookbook/technique.html'
+    template_name = 'cookbook/technique_detail.html'
 
 class AuthorListView(generic.ListView):
     model = Author
     paginate_by = 25
     context_object_name = 'author_list'
+    ordering = ['author_name']
     template_name = 'cookbook/author_list.html'
 
 class AuthorDetailView(generic.DetailView):
     model = Author
-    template_name = 'cookbook/author.html'
+    template_name = 'cookbook/author_detail.html'

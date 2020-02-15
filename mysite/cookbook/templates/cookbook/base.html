@@ -30,33 +30,24 @@
                 <div class="collapse navbar-collapse" id="navbarToggle">
                   <div class="navbar-nav mr-auto">
                     <a class="nav-item nav-link" href="{% url 'index' %}">Home</a>
-                    <a class="nav-item nav-link" href="{% url 'RecipeList' %}">All Recipes</a>
-                    <a class="nav-item nav-link" href="{% url 'TechniqueList' %}">Learn Cooking Skills</a>
+                    <a class="nav-item nav-link" href="{% url 'recipe_list' %}">All Recipes</a>
+                    <a class="nav-item nav-link" href="{% url 'author_list' %}">All Authors</a>
+                    <a class="nav-item nav-link" href="{% url 'technique_list' %}">Learn Cooking Skills</a>
                   </div>
                 </div>
               </div>
             </nav>
           </header>
-          {% block sidebar %}
-          {% endblock %}
 
           <main role="main" class="container">
             <div class="row">
               <div class="col-md-8">
-                {% block content %}{% endblock %}
+                {% block content %}
+                {% endblock %}
               </div>
               <div class="col-md-4">
-                <div class="content-section">
-                  <h3>Quick Access</h3>
-                  <p class='text-muted'>Quickly find recipes you need
-                    <ul class="list-group">
-                      <li class="list-group-item list-group-item-light">Latest Recipes</li>
-                      <li class="list-group-item list-group-item-light">Party Favorites</li>
-                      <li class="list-group-item list-group-item-light">Family Favorites</li>
-                      <li class="list-group-item list-group-item-light">Quick and Easy</li>
-                    </ul>
-                  </p>
-                </div>
+                {% block sidebar%}
+                {% endblock %}
               </div>
             </div>
           </main>

@@ -1,5 +1,19 @@
 {% extends "cookbook/base.html" %}
 
+{% block sidebar %}
+    <div class="content-section">
+        <h3>Quick Access</h3>
+        <p class='text-muted'>Quickly find recipes you need
+        <ul class="list-group">
+            <li class="list-group-item list-group-item-light">Latest Recipes</li>
+            <li class="list-group-item list-group-item-light">Party Favorites</li>
+            <li class="list-group-item list-group-item-light">Family Favorites</li>
+            <li class="list-group-item list-group-item-light">Quick and Easy</li>
+        </ul>
+        </p>
+    </div>
+{% endblock %}
+
 {% block content %}
     <!-- rotating carosel with images of dishes -->
     <h1>Cookbook Index</h1>
