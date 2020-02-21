@@ -5,8 +5,16 @@
         <div class="media-body">
             <div class="article-metadata">
                 <h2>{{ recipe.recipe_name }}</h2>
-                <p>By {{ recipe.author }}</p>
+                <p>By: {{ recipe.author }}</p>
+                <p>Cuisine: {{ recipe.cuisine }}</p>
                 <p>{{ recipe.description }}</p>
+                <p>Servings: {{ recipe.servings }}</p>
+                <p>Prep Time: {{ recipe.prep_time }} minutes</p>
+                {% if recipe.notes.notnull %}
+                    <p>Notes: {{ recipe.notes }}</p>
+                {% endif %}
+
+                <h4>Steps</h4>
                 {% for step in recipe_steps %}
                     <p>{{ step.step_number }}</p>
                     <p>{{ step.instruction }}</p>

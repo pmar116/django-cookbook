@@ -6,7 +6,10 @@
             <div class="article-metadata">
                 <h2>{{ technique.technique_name }}</h2>
                 <iframe width="560" height="315" src="http://www.youtube.com/embed/{{ technique.video_link }}" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-                <p>{{ technique.technique_tutorial }}</p>
+                {% if technique.technique_tutorial.notnull %}
+                    <h4>Tutorial</h4>
+                    <p>{{ technique.technique_tutorial }}</p>
+                {% endif %}
             </div>
         </div>
   </article>

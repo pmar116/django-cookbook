@@ -5,8 +5,12 @@
         <div class="media-body">
             <div class="article-metadata">
                 <h2>{{ author.author_name }}</h2>
-                <h4>Bio</h4>
-                <p>{{ author.author_bio }}</p>
+                {% if author.author_bio.notblank %}
+                    <h4>Bio</h4>
+                    <p>{{ author.author_bio }}</p>
+                {% endif %}
+
+                <h4>Recipes Contributed</h4>
             </div>
         </div>
   </article>
