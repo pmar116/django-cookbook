@@ -1,6 +1,19 @@
 {% extends "cookbook/base.html" %}
 
-{% block sidebar %}
+{% block content %}
+<div class="col-md-8">
+    {% for author in author_list %}
+    <article class="media content-section">
+        <div class="media-body">
+            <div class="article-metadata">
+                <h2><a href="{{ author.get_absolute_url }}">{{ author.author_name }}</a></h2>
+            </div>
+        </div>
+    </article>
+    {% endfor %}
+</div>
+
+<div class="col-md-4">
     <div class="content-section">
         <h3>Top 5 Chefs</h3>
         <p class='text-muted'>Chefs with the most recipes in the database
@@ -13,16 +26,5 @@
         </ul>
         </p>
     </div>
-{% endblock %}
-
-{% block content %}
-    {% for author in author_list %}
-    <article class="media content-section">
-        <div class="media-body">
-            <div class="article-metadata">
-                <h2><a href="{{ author.get_absolute_url }}">{{ author.author_name }}</a></h2>
-            </div>
-        </div>
-  </article>
-  {% endfor %}
+</div>
 {% endblock content %}
