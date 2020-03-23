@@ -1,25 +1,40 @@
 {% extends "cookbook/base.html" %}
 
 {% block content %}
-<div class="col-md-12">
-    <article class="media content-section">
+<div class="col-md-12 full-size">
+    <article class="media">
         <div class="media-body">
-            <div class="article-metadata">
+            <div class="article-metadata recipe-heading">
                 <h2>{{ recipe.recipe_name }}</h2>
-                <p>By: {{ recipe.author }}</p>
-                <p>Cuisine: {{ recipe.cuisine }}</p>
+                <p>By: <a href="{{ recipe.author.get_absolute_url }}" rel="author" >{{ recipe.author }}</a></p>
+                <div>
+                    <p class='inline'>Prep Time: {{ recipe.convert_time }}</p>
+                    <p class='inline'>Servings: {{ recipe.servings }} </p>
+                </div>
                 <p>{{ recipe.description }}</p>
-                <p>Servings: {{ recipe.servings }}</p>
-                <p>Prep Time: {{ recipe.prep_time }} minutes</p>
-                {% if recipe.notes.notnull %}
-                    <p>Notes: {{ recipe.notes }}</p>
-                {% endif %}
-
-                <h4>Steps</h4>
-                {% for step in recipe_steps %}
-                    <p>{{ step.step_number }}</p>
-                    <p>{{ step.instruction }}</p>
-                {% endfor %}
+            </div>
+            <div class="row">
+                <div class="article-content col-md-8">
+                    {% if recipe.notes.notnull %}
+                        <p>Notes: {{ recipe.notes }}</p>
+                    {% endif %}
+                    <h4>Instructions</h4>
+                    <div class="steps">
+                        {% for step in recipe_steps %}
+                            <p><span class="number">{{ step.step_number }}.</span> {{ step.instruction }}</p>
+                        {% endfor %}
+                    </div>
+                </div>
+                <div class="col-md-4 ingredient-list">
+                    <h5>Ingredients</h3>
+                    <div class='ingredient-list-content'>
+                        <ul class="list-group ingredients-list-group">
+                            {% for item in recipe_ingredients %}
+                                <li class="list-group-item ingredient-list-item">{{ item.amount }} {{ item.ingredient.ingredient_name }}</li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+                </div>
             </div>
         </div>
   </article>

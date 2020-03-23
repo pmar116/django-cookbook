@@ -28,15 +28,27 @@
               <div class="container">
                 <a class="navbar-brand mr-4" href="{% url 'index' %}">The Mar Family Cookbook</a>
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarToggle" aria-controls="navbarToggle" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
+                  <span class="navbar-toggler-icon"></span>
                 </button>
                 <div class="collapse navbar-collapse" id="navbarToggle">
-                  <div class="navbar-nav mr-auto">
-                    <a class="nav-item nav-link" href="{% url 'index' %}">Home</a>
-                    <a class="nav-item nav-link" href="{% url 'recipe_list' %}">All Recipes</a>
-                    <a class="nav-item nav-link" href="{% url 'author_list' %}">All Authors</a>
-                    <a class="nav-item nav-link" href="{% url 'technique_list' %}">Learn Cooking Skills</a>
-                  </div>
+                  <ul class="navbar-nav mr-auto">
+                    <li class="nav-link">
+                      <a class="nav-link" href="{% url 'index' %}">Home</a>
+                    </li>
+                    <li class="nav-link">
+                      <a class="nav-link" href="{% url 'recipe_list' %}">All Recipes</a>
+                    </li>
+                    <li class="nav-link">
+                      <a class=" nav-link" href="{% url 'author_list' %}">All Authors</a>
+                    </li>
+                    <li class="nav-link">
+                      <a class=" nav-link" href="{% url 'technique_list' %}">Learn Cooking Skills</a>
+                    </li>
+                  </ul>
+                  <form class="form-inline my-2 my-lg-0">
+                    <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
+                    <button class="btn btn-outline-light my-2 my-sm-0" type="submit">Search</button>
+                  </form>
                 </div>
               </div>
             </nav>

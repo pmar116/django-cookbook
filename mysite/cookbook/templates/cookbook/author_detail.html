@@ -12,6 +12,11 @@
                 {% endif %}
 
                 <h4>Recipes Contributed</h4>
+                {% for recipe in recipes_authored %}
+                    <p>{{ recipe.recipe_name}}</p>
+                    <p>{{ recipe.description }}</p>
+                    <p>{{ recipe.convert_time }} minutes </p>
+                {% endfor %}
             </div>
         </div>
     </article>

@@ -1,6 +1,6 @@
 from django.shortcuts import render, get_object_or_404, get_list_or_404
 from django.views import generic
-from .models import Recipe, Technique, Ingredient, Recipe_Step, Author
+from .models import Recipe, Technique, Ingredient, Recipe_Step, Author, Recipe_Ingredient
 
 
 def index(request):
@@ -23,9 +23,11 @@ class RecipeDetailView(generic.DetailView):
     def get(self, request, *args, **kwargs):
         recipe = get_object_or_404(Recipe, pk=kwargs['pk'])
         steps = get_list_or_404(Recipe_Step.objects.filter(recipe=recipe.id))
+        ingredients = get_list_or_404(Recipe_Ingredient.objects.filter(recipe=recipe.id))
         context = {
             'recipe' : recipe,
-            'recipe_steps' : steps
+            'recipe_steps' : steps,
+            'recipe_ingredients' : ingredients
         }
         return render(request, 'cookbook/recipe_detail.html', context)
 
@@ -48,5 +50,13 @@ class AuthorListView(generic.ListView):
     template_name = 'cookbook/author_list.html'
 
 class AuthorDetailView(generic.DetailView):
-    model = Author
     template_name = 'cookbook/author_detail.html'
+
+    def get(self, request, *args, **kwargs):
+        author = get_object_or_404(Author, slug=kwargs['slug'])
+        recipes = get_list_or_404(Recipe, author=author.id)
+        context = {
+            'author' : author,
+            'recipes_authored' : recipes,
+        }
+        return render(request, 'cookbook/author_detail.html', context)

@@ -7,7 +7,7 @@
         <div class="media-body">
             <div class="article-metadata">
                 <h2><a href="{{ recipe.get_absolute_url }}">{{ recipe.recipe_name }}</a></h2>
-                <p>By {{ recipe.author }}</p>
+                <p>By <a href="{{ recipe.author.get_absolute_url }}">{{ recipe.author }}</a></p>
                 <p>{{ recipe.description }}</p>
             </div>
         </div>

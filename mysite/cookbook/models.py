@@ -55,6 +55,16 @@ class Recipe(models.Model):
     def was_published_recently(self):
         return self.pub_date >= datetime.date.today - datetime.timedelta(days=30)
     
+    def convert_time(self):
+        hours = self.prep_time / 60
+        minutes = self.prep_time % 60
+        if hours < 1:
+            return f"{str(minutes)} minutes"
+        elif minutes == 0:
+            return f"{str(int(hours))} hours"
+        else:
+            return f"{int(hours)} hours and {minutes} minutes"
+
     def get_absolute_url(self):
         kwargs = {
             'pk' : self.id,
