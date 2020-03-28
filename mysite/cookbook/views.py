@@ -21,7 +21,7 @@ class RecipeDetailView(generic.DetailView):
     template_name = 'cookbook/recipe_detail.html'
 
     def get(self, request, *args, **kwargs):
-        recipe = get_object_or_404(Recipe, pk=kwargs['pk'])
+        recipe = get_object_or_404(Recipe, slug=kwargs['slug'])
         steps = get_list_or_404(Recipe_Step.objects.filter(recipe=recipe.id))
         ingredients = get_list_or_404(Recipe_Ingredient.objects.filter(recipe=recipe.id))
         context = {

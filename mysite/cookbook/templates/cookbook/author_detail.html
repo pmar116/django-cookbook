@@ -13,9 +13,14 @@
 
                 <h4>Recipes Contributed</h4>
                 {% for recipe in recipes_authored %}
-                    <p>{{ recipe.recipe_name}}</p>
-                    <p>{{ recipe.description }}</p>
-                    <p>{{ recipe.convert_time }} minutes </p>
+                    <div class="thumbnail">
+                        <p>placeholder</p>
+                    </div>
+                    <h5>{{ recipe.recipe_name}}</h5>
+                    <div class="article-metadata">
+                        <p>{{ recipe.description }}</p>
+                        <p>{{ recipe.convert_time }}</p>
+                    </div>
                 {% endfor %}
             </div>
         </div>

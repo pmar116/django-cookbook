@@ -29,12 +29,16 @@ class Recipe(models.Model):
         ('MEXICAN', 'Mexican'),
         ('UNKOWN','unknown')
     ]
-    FOOD_CATEGORY = [
+    FOOD_COURSE = [
         ('APPETIZER', 'Appetizer'),
         ('BREAKFAST', 'Breakfast'),
         ('LUNCH', 'Lunch'),
         ('DINNER', 'Dinner'),
         ('DESSERT', 'Dessert'),
+        ('SNACK', 'Snack'),
+        ('BRUNCH', 'Brunch'),
+        ('CONDIMENT', 'Condiment'),
+        ('BAKING', 'Baking'),
         ('UNKNOWN', 'Unknown')
     ]
     recipe_name = models.CharField(max_length=255)
@@ -43,11 +47,11 @@ class Recipe(models.Model):
     servings = models.IntegerField()
     prep_time = models.IntegerField()
     cuisine = models.CharField(max_length=255, choices=CUISINE_CHOICES) # enum
-    category = models.CharField(max_length=255, choices=FOOD_CATEGORY, blank=True) #enum
+    category = models.CharField(max_length=255, choices=FOOD_COURSE, blank=True) #enum
     notes = models.TextField(blank=True)
     video = models.URLField(blank=True)
     pub_date = models.DateField("Date Published", default=datetime.date.today)
-    slug = models.SlugField(null=False)
+    slug = models.SlugField(null=False, unique=True)
 
     def __str__(self):
         return f'{self.recipe_name} by {self.author}'
@@ -67,7 +71,6 @@ class Recipe(models.Model):
 
     def get_absolute_url(self):
         kwargs = {
-            'pk' : self.id,
             'slug' : self.slug
         }
         return reverse('recipe_detail', kwargs=kwargs)
