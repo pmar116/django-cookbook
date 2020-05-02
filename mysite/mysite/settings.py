@@ -15,18 +15,16 @@ import os, json
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
-
 # See https://docs.djangoproject.com/en/3.0/howto/deployment/checklist/
-#secret = open("secrets.txt","r")
 with open("secrets.json", 'r') as f:
     secrets = json.load(f)
 passwords = secrets['passwords']
 SECRET_KEY = passwords['secret_key']
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = os.environ.get('DJANGO_DEBUG','') != 'False'
 
-ALLOWED_HOSTS = ['192.168.0.41']
+ALLOWED_HOSTS = ['192.168.0.41','127.0.0.1']
 
 
 # Application definition
@@ -74,13 +72,6 @@ WSGI_APPLICATION = 'mysite.wsgi.application'
 
 # Database
 # https://docs.djangoproject.com/en/3.0/ref/settings/#databases
-"""
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
-    }
-}"""
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
@@ -129,5 +120,5 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.0/howto/static-files/
 
-STATIC_URL = os.path.join(BASE_DIR, "static/")
+STATIC_URL = '/static/'
 STATIC_ROOT = os.path.join(BASE_DIR, "static/")

@@ -7,6 +7,7 @@ def index(request):
     context = {
         'num_recipes': Recipe.objects.all().count(),
         'num_authors' : Author.objects.all().count(),
+        'recent_recipes' : Recipe.objects.order_by('pub_date')[0:5]
     }
     return render(request, 'cookbook/index.html', context)
 
