@@ -2,14 +2,16 @@ from django.shortcuts import render, get_object_or_404, get_list_or_404
 from django.views import generic
 from .models import Recipe, Technique, Ingredient, Author, Recipe_Ingredient, Recipe_Photos
 
+class indexView(generic.TemplateView):
+    template_name = 'cookbook/index.html'
 
-def index(request):
-    context = {
-        'num_recipes': Recipe.objects.all().count(),
-        'num_authors' : Author.objects.all().count(),
-        'recent_recipes' : Recipe.objects.order_by('pub_date')[0:5]
-    }
-    return render(request, 'cookbook/index.html', context)
+    def get_context_data(self, **kwargs):
+        context = {
+            'num_recipes': Recipe.objects.all().count(),
+            'num_authors' : Author.objects.all().count(),
+            'recent_recipes' : Recipe.objects.order_by('pub_date')[0:5]
+        }
+        return context
 
 class RecipeListView(generic.ListView):
     model = Recipe
@@ -18,14 +20,10 @@ class RecipeListView(generic.ListView):
     ordering = ['recipe_name']
     template_name = 'cookbook/recipe_list.html'
 
-class RecipeDetailView(generic.DetailView):
+class RecipeDetailView(generic.TemplateView):
     template_name = 'cookbook/recipe_detail.html'
-    queryset = Recipe.objects.all()
 
-    def get_queryset(self):
-        return self.queryset.filter(slug=self.kwargs.get('slug'))
-    """
-    def get(self, request, *args, **kwargs):
+    def get_context_data(self, **kwargs):
         recipe = get_object_or_404(Recipe, slug=kwargs['slug'])
         ingredients = get_list_or_404(Recipe_Ingredient.objects.filter(recipe=recipe.id))
         gallery = get_list_or_404(Recipe_Photos.objects.filter(recipe=recipe.id))
@@ -34,8 +32,7 @@ class RecipeDetailView(generic.DetailView):
             'recipe_ingredients' : ingredients,
             'recipe_photos' : gallery
         }
-        return render(request, 'cookbook/recipe_detail.html', context)
-    """
+        return context
 
 class TechniqueListView(generic.ListView):
     model = Technique
