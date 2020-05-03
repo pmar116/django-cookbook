@@ -7,7 +7,7 @@ class Recipe_Ingredients_InLine(admin.StackedInline):
 
 class Recipe_Photos_InLine(admin.StackedInline):
     model = Recipe_Photos
-    extra = 1
+    extra = 0
 
 class RecipeAdmin(admin.ModelAdmin):
     prepopulated_fields = {'slug' : ('recipe_name',)}
@@ -17,13 +17,13 @@ class RecipeAdmin(admin.ModelAdmin):
     inlines = [Recipe_Ingredients_InLine, Recipe_Photos_InLine]
 
 class TechniqueAdmin(admin.ModelAdmin):
-    prepopulated_fields = {'slug' : ('technique_name'),}
+    prepopulated_fields = {'slug' : ('technique_name',)}
 
 class AuthorAdmin(admin.ModelAdmin):
-    prepopulated_fields = {'slug' : ('author_name'),}
+    prepopulated_fields = {'slug' : ('author_name',)}
 
 admin.site.register(Recipe, RecipeAdmin)
-admin.site.register(Author)
-admin.site.register(Technique)
+admin.site.register(Author, AuthorAdmin)
+admin.site.register(Technique, TechniqueAdmin)
 admin.site.register(Ingredient)
 admin.site.register(Recipe_Photos)

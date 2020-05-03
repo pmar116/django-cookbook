@@ -16,7 +16,7 @@
                     <div class="thumbnail">
                         <p>placeholder</p>
                     </div>
-                    <h5>{{ recipe.recipe_name}}</h5>
+                    <h5><a href="{{ recipe.get_absolute_url }}">{{ recipe.recipe_name }}</a></h5>
                     <div class="article-metadata">
                         <p>{{ recipe.description }}</p>
                         <p>{{ recipe.convert_time }}</p>

@@ -36,7 +36,7 @@ class Recipe(models.Model):
     cuisine = models.CharField(max_length=255, choices=CUISINE_CHOICES) # enum
     prep_time = models.IntegerField()
     cook_time = models.IntegerField()
-    servings = models.IntegerField(blank=True)
+    servings = models.IntegerField(null=True)
     instructions = models.TextField()
     notes = models.TextField(blank=True)
     pub_date = models.DateField("Date Published", default=datetime.date.today)

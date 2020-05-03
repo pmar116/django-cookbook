@@ -21,11 +21,9 @@
         <h3>Top 5 Chefs</h3>
         <p class='text-muted'>Chefs with the most recipes in the database
         <ul class="list-group">
-            <li class="list-group-item list-group-item-light">Carol Mar</li>
-            <li class="list-group-item list-group-item-light">Gordon Ramsay</li>
-            <li class="list-group-item list-group-item-light">Dr. Seuss</li>
-            <li class="list-group-item list-group-item-light">Bon Apetit</li>
-            <li class="list-group-item list-group-item-light">Rachel Ray</li>
+            {% for top5 in sidebar_authors %}
+            <li class="list-group-item list-group-item-light"><a href="{{ top5.get_absolute_url }}">{{ top5.author_name }}</a></li>
+            {% endfor %}
         </ul>
         </p>
     </div>
