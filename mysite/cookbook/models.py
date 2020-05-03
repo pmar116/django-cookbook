@@ -29,27 +29,16 @@ class Recipe(models.Model):
         ('MEXICAN', 'Mexican'),
         ('UNKOWN','unknown')
     ]
-    FOOD_COURSE = [
-        ('APPETIZER', 'Appetizer'),
-        ('BREAKFAST', 'Breakfast'),
-        ('LUNCH', 'Lunch'),
-        ('DINNER', 'Dinner'),
-        ('DESSERT', 'Dessert'),
-        ('SNACK', 'Snack'),
-        ('BRUNCH', 'Brunch'),
-        ('CONDIMENT', 'Condiment'),
-        ('BAKING', 'Baking'),
-        ('UNKNOWN', 'Unknown')
-    ]
     recipe_name = models.CharField(max_length=255)
-    description = models.TextField(blank=True)
+    description = models.TextField()
     author = models.ForeignKey(Author, on_delete=models.PROTECT, null=True, blank=True)
-    servings = models.IntegerField()
-    prep_time = models.IntegerField()
+    source = models.URLField(blank=True)
     cuisine = models.CharField(max_length=255, choices=CUISINE_CHOICES) # enum
-    category = models.CharField(max_length=255, choices=FOOD_COURSE, blank=True) #enum
+    prep_time = models.IntegerField()
+    cook_time = models.IntegerField()
+    servings = models.IntegerField(blank=True)
+    instructions = models.TextField()
     notes = models.TextField(blank=True)
-    video = models.URLField(blank=True)
     pub_date = models.DateField("Date Published", default=datetime.date.today)
     slug = models.SlugField(null=False, unique=True)
 
@@ -69,11 +58,53 @@ class Recipe(models.Model):
         else:
             return f"{int(hours)} hours and {minutes} minutes"
 
+    def recipe_generate_steps(self):
+        steps = []
+        line = ""
+        for char in str(self.instructions):
+            if(char == '\n'):
+                steps.append(line)
+                line = ""
+            else:
+                line = line+char
+        steps.append(line)
+        return steps
+
     def get_absolute_url(self):
         kwargs = {
             'slug' : self.slug
         }
         return reverse('recipe_detail', kwargs=kwargs)
+
+class Ingredient(models.Model):
+    ALLERGY_TYPE =  [
+        ('NUT', 'Nut'),
+        ('PEANUT', 'Peanut'),
+        ('SHELLFISH', 'Shellfish'),
+        ('FISH', 'Fish'),
+        ('MILK', 'Milk'),
+        ('EGGS', 'Eggs'),
+        ('SOY', 'Soy'),
+        ('WHEAT', 'Wheat'),
+        ('NONE','none')
+    ]
+    ingredient_name = models.CharField(max_length=255)
+    allergy = models.CharField(max_length=255, choices=ALLERGY_TYPE) # enum
+
+    def __str__(self):
+        return self.ingredient_name
+
+class Recipe_Ingredient(models.Model):
+    recipe = models.ForeignKey(Recipe, on_delete=models.CASCADE) # connect to recipe table
+    ingredient = models.ForeignKey(Ingredient, on_delete=models.PROTECT) # connect to ingredients table
+    amount = models.CharField(max_length=144)
+
+    def __str__(self):
+        return f'{self.amount} {self.ingredient}s'
+
+class Recipe_Photos(models.Model):
+    recipe = models.ForeignKey(Recipe, on_delete=models.CASCADE) # connect to recipe table
+    photo = models.ImageField()
 
 class Technique(models.Model):
     technique_name = models.CharField(max_length=255) # connect to recipe step table
@@ -89,40 +120,3 @@ class Technique(models.Model):
             'slug' : self.slug
         }
         return reverse('technique_detail', kwargs=kwargs)
-
-class Recipe_Step(models.Model):
-    recipe = models.ForeignKey(Recipe, on_delete=models.CASCADE) #connect to recipe table
-    step_number = models.IntegerField()
-    instruction = models.TextField()
-    techique = models.ForeignKey(Technique, on_delete=models.PROTECT, null=True, blank=True) # connect to technical table
-
-    def __str__(self):
-        return str(self.step_number)
-
-class Ingredient(models.Model):
-    INGREDIENT_TYPES=[
-        ('NUT', 'Nut'),
-        ('SHELLFISH', 'Shellfish'),
-        ('SEAFOOD', 'Seafood'),
-        ('VEGETABLE', 'Vegetable'),
-        ('BEEF', 'Beef'),
-        ('PORK', 'Pork'),
-        ('CHICKEN', 'Chicken'),
-        ('DAIRY', 'Dairy'),
-        ('STARCH', 'Starch'),
-        ('SEASONING', 'Seasoning'),
-        ('UNKNOWN', 'unknown')
-    ]
-    ingredient_name = models.CharField(max_length=255)
-    ingredient_type = models.CharField(max_length=255, choices=INGREDIENT_TYPES) # enum
-
-    def __str__(self):
-        return self.ingredient_name
-
-class Recipe_Ingredient(models.Model):
-    recipe = models.ForeignKey(Recipe, on_delete=models.CASCADE) # connect to recipe table
-    ingredient = models.ForeignKey(Ingredient, on_delete=models.PROTECT) # connect to ingredients table
-    amount = models.CharField(max_length=144)
-
-    def __str__(self):
-        return f'{self.amount} {self.ingredient}s'

@@ -20,8 +20,8 @@
                     {% endif %}
                     <h4>Instructions</h4>
                     <div class="steps">
-                        {% for step in recipe_steps %}
-                            <p><span class="number">{{ step.step_number }}.</span> {{ step.instruction }}</p>
+                        {% for step in recipe.recipe_generate_steps %}
+                            <p><span class="number">{{ forloop.counter }}.</span> {{ step }}</p>
                         {% endfor %}
                     </div>
                 </div>
