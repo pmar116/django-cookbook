@@ -37,7 +37,6 @@ class Recipe(models.Model):
     prep_time = models.IntegerField()
     cook_time = models.IntegerField()
     servings = models.IntegerField(null=True)
-    instructions = models.TextField()
     notes = models.TextField(blank=True)
     pub_date = models.DateField("Date Published", default=datetime.datetime.now)
     slug = models.SlugField(null=False, unique=True)
@@ -58,6 +57,16 @@ class Recipe(models.Model):
         else:
             return f"{int(hours)} hours and {minutes} minutes"
 
+    def get_absolute_url(self):
+        kwargs = {
+            'slug' : self.slug
+        }
+        return reverse('recipe_detail', kwargs=kwargs)
+
+class Recipe_Instructions(models.Model):
+    recipe = models.ForeignKey(Recipe, on_delete=models.CASCADE)
+    instructions = models.TextField()
+
     def recipe_generate_steps(self):
         steps = []
         line = ""
@@ -70,37 +79,33 @@ class Recipe(models.Model):
         steps.append(line)
         return steps
 
-    def get_absolute_url(self):
-        kwargs = {
-            'slug' : self.slug
-        }
-        return reverse('recipe_detail', kwargs=kwargs)
-
-class Ingredient(models.Model):
-    ALLERGY_TYPE =  [
-        ('NUT', 'Nut'),
-        ('PEANUT', 'Peanut'),
-        ('SHELLFISH', 'Shellfish'),
-        ('FISH', 'Fish'),
-        ('MILK', 'Milk'),
-        ('EGGS', 'Eggs'),
-        ('SOY', 'Soy'),
-        ('WHEAT', 'Wheat'),
-        ('NONE','none')
-    ]
-    ingredient_name = models.CharField(max_length=255)
-    allergy = models.CharField(max_length=255, choices=ALLERGY_TYPE) # enum
-
-    def __str__(self):
-        return self.ingredient_name
-
 class Recipe_Ingredient(models.Model):
+    ALLERGY_TYPE =  [
+    ('NUT', 'Nut'),
+    ('PEANUT', 'Peanut'),
+    ('SHELLFISH', 'Shellfish'),
+    ('FISH', 'Fish'),
+    ('MILK', 'Milk'),
+    ('EGGS', 'Eggs'),
+    ('SOY', 'Soy'),
+    ('WHEAT', 'Wheat'),
+    ('NONE','none')
+    ]
     recipe = models.ForeignKey(Recipe, on_delete=models.CASCADE) # connect to recipe table
-    ingredient = models.ForeignKey(Ingredient, on_delete=models.PROTECT) # connect to ingredients table
-    amount = models.CharField(max_length=144)
+    ingredient_list = models.TextField()
 
-    def __str__(self):
-        return f'{self.amount} {self.ingredient}s'
+    def ingredient_generate_list(self):
+        ingredients = []
+        line = ""
+        for char in str(self.ingredient_list):
+            if(char == '\n'):
+                ingredients.append(line)
+                line = ""
+            else:
+                line = line+char
+        ingredients.append(line)
+        return ingredients
+
 
 class Recipe_Photos(models.Model):
     recipe = models.ForeignKey(Recipe, on_delete=models.CASCADE) # connect to recipe table
