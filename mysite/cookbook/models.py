@@ -39,7 +39,7 @@ class Recipe(models.Model):
     servings = models.IntegerField(null=True)
     instructions = models.TextField()
     notes = models.TextField(blank=True)
-    pub_date = models.DateField("Date Published", default=datetime.date.today)
+    pub_date = models.DateField("Date Published", default=datetime.datetime.now)
     slug = models.SlugField(null=False, unique=True)
 
     def __str__(self):

@@ -1,7 +1,8 @@
 from django.shortcuts import render, get_object_or_404, get_list_or_404
 from django.views import generic
 from django.db.models import Count
-from .models import Recipe, Technique, Ingredient, Author, Recipe_Ingredient, Recipe_Photos
+from .models import *
+from .forms import *
 
 class indexView(generic.TemplateView):
     template_name = 'cookbook/index.html'
@@ -35,36 +36,18 @@ class RecipeDetailView(generic.TemplateView):
         }
         return context
 
-class TechniqueListView(generic.ListView):
-    template_name = 'cookbook/technique_list.html'
-    model = Technique
-    paginate_by = 25
-    context_object_name = 'technique_list'
-    ordering = ['technique_name']
-    
-
-class TechniqueDetailView(generic.DetailView):
-    model = Technique
-    template_name = 'cookbook/technique_detail.html'
-
-class AuthorListView(generic.ListView):
+class AuthorListView(generic.TemplateView):
     template_name = 'cookbook/author_list.html'
-    model = Author
-    context_object_name = 'author_list'
-    paginate_by = 25
 
-    def get_queryset(self):
-        return Author.objects.order_by('author_name')
-        
-    """
     def get_context_data(self,**kwargs):
         context = super(AuthorListView, self).get_context_data(**kwargs)
-        top5_authors = Author.objects.annotate(num_authors=Count('recipe')).order_by('-num_authors')[:5]        
+        top5_authors = Author.objects.annotate(num_authors=Count('recipe')).order_by('-num_authors')[:5]  
+        author_list = Author.objects.order_by('author_name')      
         context = {
+            'author_list' : author_list,
             'sidebar_authors' : top5_authors
         }
         return context
-    """
 
 class AuthorDetailView(generic.TemplateView):
     template_name = 'cookbook/author_detail.html'
@@ -77,3 +60,15 @@ class AuthorDetailView(generic.TemplateView):
             'recipes_authored' : recipes,
         }
         return context
+
+class TechniqueListView(generic.ListView):
+    template_name = 'cookbook/technique_list.html'
+    model = Technique
+    paginate_by = 25
+    context_object_name = 'technique_list'
+    ordering = ['technique_name']
+    
+
+class TechniqueDetailView(generic.DetailView):
+    model = Technique
+    template_name = 'cookbook/technique_detail.html'

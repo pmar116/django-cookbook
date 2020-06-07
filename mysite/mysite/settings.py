@@ -31,6 +31,7 @@ ALLOWED_HOSTS = ['192.168.0.41','127.0.0.1']
 
 INSTALLED_APPS = [
     'cookbook.apps.CookbookConfig',
+    'crispy_forms',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
