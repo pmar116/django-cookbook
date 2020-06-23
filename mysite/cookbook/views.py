@@ -27,10 +27,12 @@ class RecipeDetailView(generic.TemplateView):
 
     def get_context_data(self, **kwargs):
         recipe = get_object_or_404(Recipe, slug=kwargs['slug'])
-        ingredients = get_list_or_404(Recipe_Ingredient.objects.filter(recipe=recipe.id))
+        instructions = get_object_or_404(Recipe_Instructions.objects.filter(recipe=recipe.id))
+        ingredients = get_object_or_404(Recipe_Ingredients.objects.filter(recipe=recipe.id))
         gallery = Recipe_Photos.objects.filter(recipe=recipe.id)
         context = {
             'recipe' : recipe,
+            'recipe_instructions' : instructions,
             'recipe_ingredients' : ingredients,
             'recipe_photos' : gallery
         }
