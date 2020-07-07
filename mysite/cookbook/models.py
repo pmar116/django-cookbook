@@ -57,7 +57,7 @@ class Recipe(models.Model):
             time = time + f"{str(hours)} hour "
         if hours > 0 and minutes > 0:
             time = time + "and "
-        if minutes != 0:
+        if minutes == 1:
             time = time + f"{str(minutes)} minute"
         elif minutes != 0:
             time = time + f"{str(minutes)} minutes"
@@ -73,7 +73,7 @@ class Recipe(models.Model):
             time = time + f"{str(hours)} hour "
         if hours > 0 and minutes > 0:
             time = time + "and "
-        if minutes != 0:
+        if minutes == 1:
             time = time + f"{str(minutes)} minute"
         elif minutes != 0:
             time = time + f"{str(minutes)} minutes"
