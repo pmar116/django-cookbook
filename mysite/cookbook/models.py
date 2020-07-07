@@ -47,9 +47,19 @@ class Recipe(models.Model):
     def was_published_recently(self):
         return self.pub_date >= datetime.date.today - datetime.timedelta(days=30)
     
-    def convert_time(self):
+    def display_prep_time(self):
         hours = self.prep_time / 60
         minutes = self.prep_time % 60
+        if hours < 1:
+            return f"{str(minutes)} minutes"
+        elif minutes == 0:
+            return f"{str(int(hours))} hours"
+        else:
+            return f"{int(hours)} hours and {minutes} minutes"
+    
+    def display_cook_time(self):
+        hours = self.cook_time / 60
+        minutes = self.cook_time % 60
         if hours < 1:
             return f"{str(minutes)} minutes"
         elif minutes == 0:
@@ -70,14 +80,9 @@ class Recipe_Instructions(models.Model):
 
     def recipe_generate_steps(self):
         steps = []
-        line = ""
-        for char in str(self.instructions):
-            if(char == '\n'):
+        for line in self.instructions.split("\r\n"):
+            if len(line) != 0:
                 steps.append(line)
-                line = ""
-            else:
-                line = line+char
-        steps.append(line)
         return steps
 
 class Recipe_Ingredients(models.Model):
@@ -98,14 +103,9 @@ class Recipe_Ingredients(models.Model):
 
     def ingredient_generate_list(self):
         ingredients = []
-        line = ""
-        for char in str(self.ingredient_list):
-            if(char == '\n'):
+        for line in self.ingredient_list.split("\r\n"):
+            if len(line) != 0:
                 ingredients.append(line)
-                line = ""
-            else:
-                line = line+char
-        ingredients.append(line)
         return ingredients
 
 class Recipe_Photos(models.Model):

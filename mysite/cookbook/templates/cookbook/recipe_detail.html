@@ -8,7 +8,8 @@
                 <h2>{{ recipe.recipe_name }}</h2>
                 <p>By: <a href="{{ recipe.author.get_absolute_url }}" rel="author" >{{ recipe.author }}</a></p>
                 <div>
-                    <p class='inline'>Prep Time: {{ recipe.convert_time }}</p>
+                    <p class='inline'>Prep Time: {{ recipe.dispaly_prep_time }}</p>
+                    <p class='inline'>Cook Time: {{ recipe.display_convert_time }}</p>
                     <p class='inline'>Servings: {{ recipe.servings }} </p>
                 </div>
                 <p>{{ recipe.description }}</p>
@@ -44,6 +45,12 @@
                             {% endfor %}
                         </ul>
                     </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-8">
+                    <h4>Notes</h4>
+                    <p>{{ recipe.notes }}</p>
                 </div>
             </div>
         </div>
