@@ -64,8 +64,8 @@ class Recipe(models.Model):
         return time
     
     def display_cook_time(self):
-        hours = self.cook_time / 60
-        minutes = self.cook_time % 60
+        hours = int(self.cook_time / 60)
+        minutes = int(self.cook_time % 60)
         time = ""
         if hours > 1:
             time = time + f"{str(hours)} hours "
