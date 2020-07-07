@@ -48,24 +48,36 @@ class Recipe(models.Model):
         return self.pub_date >= datetime.date.today - datetime.timedelta(days=30)
     
     def display_prep_time(self):
-        hours = self.prep_time / 60
-        minutes = self.prep_time % 60
-        if hours < 1:
-            return f"{str(minutes)} minutes"
-        elif minutes == 0:
-            return f"{str(int(hours))} hours"
-        else:
-            return f"{int(hours)} hours and {minutes} minutes"
+        hours = int(self.prep_time / 60)
+        minutes = int(self.prep_time % 60)
+        time = ""
+        if hours > 1:
+            time = time + f"{str(hours)} hours "
+        elif hours == 1:
+            time = time + f"{str(hours)} hour "
+        if hours > 0 and minutes > 0:
+            time = time + "and "
+        if minutes != 0:
+            time = time + f"{str(minutes)} minute"
+        elif minutes != 0:
+            time = time + f"{str(minutes)} minutes"
+        return time
     
     def display_cook_time(self):
         hours = self.cook_time / 60
         minutes = self.cook_time % 60
-        if hours < 1:
-            return f"{str(minutes)} minutes"
-        elif minutes == 0:
-            return f"{str(int(hours))} hours"
-        else:
-            return f"{int(hours)} hours and {minutes} minutes"
+        time = ""
+        if hours > 1:
+            time = time + f"{str(hours)} hours "
+        elif hours == 1:
+            time = time + f"{str(hours)} hour "
+        if hours > 0 and minutes > 0:
+            time = time + "and "
+        if minutes != 0:
+            time = time + f"{str(minutes)} minute"
+        elif minutes != 0:
+            time = time + f"{str(minutes)} minutes"
+        return time
 
     def get_absolute_url(self):
         kwargs = {
