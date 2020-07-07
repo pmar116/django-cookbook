@@ -20,8 +20,13 @@
                     {% endif %}
                     <h4>Instructions</h4>
                     <div class="steps">
-                        {% for step in recipe_instructions.recipe_generate_steps %}
-                            <p><span class="number">{{ forloop.counter }}.</span> {{ step }}</p>
+                        {% for instructions in recipe_instructions %}
+                            {% if instructions.section_title != Null %}
+                                <h5>{{ instructions.section_title }}</h5>
+                            {%  endif %}
+                            {% for step in instructions.recipe_generate_steps %}
+                                <p><span class="number">{{ forloop.counter }}.</span> {{ step }}</p>
+                            {% endfor %}
                         {% endfor %}
                     </div>
                 </div>
@@ -29,8 +34,13 @@
                     <h5>Ingredients</h3>
                     <div class='ingredient-list-content'>
                         <ul class="list-group ingredients-list-group">
-                            {% for item in recipe_ingredients.ingredient_generate_list %}
-                                <li class="list-group-item ingredient-list-item">{{ item }}</li>
+                            {% for ingredients in recipe_ingredients %}
+                                {% if ingredients.section_title != Null %}
+                                    <h5>{{ ingredients.section_title }}</h5>
+                                {%  endif %}
+                                {% for item in ingredients.ingredient_generate_list %}
+                                    <li class="list-group-item ingredient-list-item">{{ item }}</li>
+                                {% endfor %}
                             {% endfor %}
                         </ul>
                     </div>

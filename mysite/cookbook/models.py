@@ -64,11 +64,11 @@ class Recipe(models.Model):
         return reverse('recipe_detail', kwargs=kwargs)
 
 class Recipe_Instructions(models.Model):
-    recipe = models.ForeignKey(Recipe, on_delete=models.CASCADE, unique=True)
+    recipe = models.ForeignKey(Recipe, on_delete=models.CASCADE)
+    section_title = models.CharField(max_length=100, null=True, blank=True)
     instructions = models.TextField()
 
     def recipe_generate_steps(self):
-        print("instructions")
         steps = []
         line = ""
         for char in str(self.instructions):
@@ -78,7 +78,6 @@ class Recipe_Instructions(models.Model):
             else:
                 line = line+char
         steps.append(line)
-        print(steps)
         return steps
 
 class Recipe_Ingredients(models.Model):
@@ -93,11 +92,11 @@ class Recipe_Ingredients(models.Model):
     ('WHEAT', 'Wheat'),
     ('NONE','none')
     ]
-    recipe = models.ForeignKey(Recipe, on_delete=models.CASCADE, unique=True) # connect to recipe table
+    recipe = models.ForeignKey(Recipe, on_delete=models.CASCADE) # connect to recipe table
+    section_title = models.CharField(max_length=100, null=True, blank=True)
     ingredient_list = models.TextField()
 
     def ingredient_generate_list(self):
-        print("ingredients")
         ingredients = []
         line = ""
         for char in str(self.ingredient_list):
@@ -107,7 +106,6 @@ class Recipe_Ingredients(models.Model):
             else:
                 line = line+char
         ingredients.append(line)
-        print(ingredients)
         return ingredients
 
 class Recipe_Photos(models.Model):
