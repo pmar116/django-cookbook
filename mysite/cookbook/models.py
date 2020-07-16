@@ -1,5 +1,6 @@
 from django.db import models
 from django.urls import reverse
+from taggit.managers import TaggableManager
 import datetime
 
 class Author(models.Model):
@@ -39,6 +40,7 @@ class Recipe(models.Model):
     servings = models.IntegerField(null=True)
     notes = models.TextField(blank=True)
     pub_date = models.DateField("Date Published", default=datetime.datetime.now)
+    tags = TaggableManager()
     slug = models.SlugField(null=False, unique=True)
 
     def __str__(self):

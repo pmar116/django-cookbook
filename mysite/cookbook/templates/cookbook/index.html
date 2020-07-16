@@ -10,11 +10,12 @@
         <li><strong>Authors:</strong> {{ num_authors }}</li>
     </ul>
     <br>
-    <p>Add to database</p>
+    <p>10 Most Common Tags</p>
     <ul>
-        <li><a href="">Add to Recipe</a></li>
-        <li><a href="">Add to Authors</a></li>
-        <li><a href="">Add to Technique</a></li>
+        {% for tag in tags %}
+        <li>{{ tag }}</li>
+        {% endfor %}
+        <li></li>
     </ul>
 </div>
 

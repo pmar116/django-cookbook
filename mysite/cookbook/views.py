@@ -11,6 +11,7 @@ class indexView(generic.TemplateView):
         context = {
             'num_recipes': Recipe.objects.all().count(),
             'num_authors' : Author.objects.all().count(),
+            'tags' : Recipe.tags.most_common()[:10],
             'recent_recipes' : Recipe.objects.order_by('pub_date')[0:5]
         }
         return context
