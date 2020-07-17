@@ -2,7 +2,7 @@
 
 {% block content %}
 <div class="col-md-12">
-    <article class="media content-section">
+    <article class="author-heading">
         <div class="media-body">
             <div class="article-metadata">
                 <h2>{{ author.author_name }}</h2>
@@ -13,14 +13,17 @@
 
                 <h4>Recipes Contributed</h4>
                 {% for recipe in recipes_authored %}
-                    <div class="thumbnail">
-                        <p>placeholder</p>
+                <article class="media content-section">
+                    <div class="media-body">
+                        <div class="article-metadata">
+                            <div class="thumbnail">
+                                <p>placeholder</p>
+                            </div>
+                            <h2><a href="{{ recipe.get_absolute_url }}">{{ recipe.recipe_name }}</a></h2>
+                            <p>{{ recipe.description }}</p>
+                        </div>
                     </div>
-                    <h5><a href="{{ recipe.get_absolute_url }}">{{ recipe.recipe_name }}</a></h5>
-                    <div class="article-metadata">
-                        <p>{{ recipe.description }}</p>
-                        <p>{{ recipe.convert_time }}</p>
-                    </div>
+                </article>
                 {% endfor %}
             </div>
         </div>
